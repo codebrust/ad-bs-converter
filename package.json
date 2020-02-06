@@ -29,9 +29,5 @@
   "devDependencies": {
     "chai": "^3.1.0",
     "mocha": "^2.2.5"
-  },
-  "dependencies": {
-    "get-nepali-number": "^0.1.0",
-    "get-nepday-of-week": "^0.1.4"
   }
 }
