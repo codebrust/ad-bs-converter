@@ -19,34 +19,26 @@ console.log(adbs.bs2ad("2047/4/26"))
 outputs
 
 ```javascript
-{ ne: 
-   { year: '२०४७',
-     month: '४',
-     day: '२६',
-     strMonth: 'श्रावण',
-     strShortMonth: 'श्रा',
-     dayOfWeek: '५',
-     strDayOfWeek: 'शुक्रवार',
-     strShortDayOfWeek: 'शुक्र',
-     strMinDayOfWeek: 'शु',
-     totalDaysInMonth: '३२'},
-  en: 
-   { year: 2047,
+{
+     year: 2047,
      month: 4,
      day: 26,
      strMonth: 'Shrawan',
      strShortMonth: 'Shra',
-     dayOfWeek: 5,
+     dayOfWeek: 6,
      strDayOfWeek: 'Shukrabaar',
      strShortDayOfWeek: 'Shukra',
-     strMinDayOfWeek: 'Shu',
-     totalDaysInMonth: '32' } }
-{ year: 1990,
-  month: 8,
-  strMonth: 'August',
-  strShortMonth: 'Aug',
-  day: 10,
-  dayOfWeek: 5,
-  strDayOfWeek: 'Friday',
-  strShortDayOfWeek: 'Fri' }
+     totalDaysInMonth: '32'
+}
+
+{ 
+      year: 1990,
+      month: 8,
+      strMonth: 'August',
+      strShortMonth: 'Aug',
+      day: 10,
+      dayOfWeek: 5,
+      strDayOfWeek: 'Friday',
+      strShortDayOfWeek: 'Fri' 
+}
 ```
