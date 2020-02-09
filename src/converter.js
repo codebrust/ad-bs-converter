@@ -153,20 +153,6 @@ var defaults = {
     '2092': [ 31, 31, 32, 32, 31, 30, 30, 30, 29, 30, 30, 30, 366 ]
   }
 
-/*
- * gathered data below; if anybody can validate below, thanks!
- * A hacky way is to iterate for the unknown dates is to use daysPerYear and loop through
- *
- '2093': [ 31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 30, 30, 366 ],
- '2094': [ 31, 31, 32, 31, 31, 30, 30, 30, 29, 30, 30, 30, 365 ],
- '2095': [ 31, 31, 32, 31, 31, 31, 30, 29, 30, 30, 30, 30, 366 ],
- '2096': [ 30, 31, 32, 32, 31, 30, 30, 29, 30, 29, 30, 30, 364 ],
- '2097': [ 31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 30, 30, 366 ],
- '2098': [ 31, 31, 32, 31, 31, 31, 29, 30, 29, 30, 30, 31, 366 ],
- '2099': [ 31, 31, 32, 31, 31, 31, 30, 29, 29, 30, 30, 30, 365 ],
- '2100': [ 31, 32, 31, 32, 30, 31, 30, 29, 30, 29, 30, 30, 365 ]
- */
-
 function countDaysInYear(year) {
   if (typeof calendar_data[year] === 'undefined') {
     return daysInYear;
@@ -315,6 +301,73 @@ function offsetADDays(dayCount) {
   return dateObj;
 }
 
+function toad(bsDate){
+  bsDate = bsDate?bsDate.replace(/-/g,"/"):null
+  var dayCount = countBSDays(bsDate);
+  var date = new Date(base_ad.year, base_ad.month - 1, base_ad.day);
+  date.setDate(date.getDate() + dayCount);
+  var month = date.getMonth();
+  return date.getFullYear() + "/" + (month + 1) + "/" + date.getDate();
+}
+
+function tobs(adDate){
+  adDate = adDate?adDate.replace(/-/g,"/"):null
+  var dayData = countADDays(adDate);
+  var dayCount = dayData.diffDays,
+    dateInAd = dayData.dateInAd;
+  var bs_date = JSON.parse(JSON.stringify(base_bs));
+  if (dayCount >= 0) {
+    bs_date.day += dayCount;
+    while (bs_date.day > calendar_data[bs_date.year][bs_date.month - 1]) {
+      bs_date.day -= calendar_data[bs_date.year][bs_date.month - 1];
+      bs_date.month++;
+      if (bs_date.month > 12) {
+        bs_date.year++;
+        bs_date.month = 1;
+      }
+    }
+  }
+  else {
+    dayCount = Math.abs(dayCount);
+    while (dayCount >= 0) {
+      if (dayCount < calendar_data[bs_date.year][bs_date.month - 1]) {
+        dayCount = calendar_data[bs_date.year][bs_date.month - 1] - dayCount;
+        break;
+      }
+      dayCount -= calendar_data[bs_date.year][bs_date.month - 1];
+      bs_date.month--;
+      if (bs_date.month === 0) {
+        bs_date.year--;
+        bs_date.month = 12;
+      }
+    }
+    bs_date.day = dayCount;
+  }
+  var totalDays = calendar_data[bs_date.year][bs_date.month - 1]
+  return bs_date.year + "/" + bs_date.month + "/" + bs_date.day;
+}
+
+function lastday(nepDate)
+{
+  nepDate = nepDate?nepDate.replace(/-/g,"/"):null
+  var dateArr = nepDate.split('/').map(function(str) {
+    return Number(str);
+  });
+  if(calendar_data[dateArr[0]]==null){
+    throw Error("Invalid Date");
+  }
+  var totalDays = calendar_data[dateArr[0]][dateArr[1] - 1];
+  return dateArr[0] + "/" + dateArr[1] + "/" + totalDays;
+}
+
+function firstday(nepDate){
+  nepDate = nepDate?nepDate.replace(/-/g,"/"):null
+  var dateArr = nepDate.split('/').map(function(str) {
+    return Number(str);
+  });
+  return dateArr[0] + "/" + dateArr[1] + "/" + "1";
+}
+
 function bs2ad(date) {
   // Accepts Date format "2018-04-09"
   date = date?date.replace(/-/g,"/"):null
@@ -328,3 +381,9 @@ function ad2bs(date) {
 
 exports.bs2ad = bs2ad;
 exports.ad2bs = ad2bs;
+
+exports.tobs = tobs;
+exports.toad = toad;
+
+exports.lastday = lastday;
+exports.firstday = firstday;

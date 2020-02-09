@@ -2,6 +2,9 @@ var should = require('chai').should(),
     adbsconverter = require('../../src/converter.js'),
     bs2ad = adbsconverter.bs2ad,
     ad2bs = adbsconverter.ad2bs;
+    tobs = adbsconverter.tobs;
+    toad = adbsconverter.toad;
+    lastday = adbsconverter.lastday;
 
 describe('#bs2ad', function() {
     it('Converts 2072/4/3 to 2015/7/19', function() {
@@ -211,7 +214,6 @@ describe('#ad2bs', function() {
         ad2bs('2036/4/14').should.eql(expectedDate);
     });
 
-    // my birthday :D
     it('Converts 1990/8/10 to 2047/4/26', function() {
         var expectedDate = {
                 "year": 2047,
@@ -225,5 +227,35 @@ describe('#ad2bs', function() {
                 "totalDaysInMonth": 32
         };
         ad2bs('1990/8/10').should.eql(expectedDate);
+    });
+});
+
+describe('#tobs', function() {
+    it('Converts 1993/05/25 to 2050/02/12', function() {
+        var expectedDate = "2050/2/12";
+        tobs('1993/05/25').should.eql(expectedDate);
+    });
+});
+
+describe('#toad', function() {
+    it('Converts 2050/02/12 to 1993/02/12', function() {
+        var expectedDate = "1993/5/25";
+        toad('2050/02/12').should.eql(expectedDate);
+    });
+});
+
+describe('#lastday', function() {
+    it('Converts 2072/4/3 to 2072/4/32', function() {
+        var expectedDate = "2072/4/32";
+        lastday('2072/4/3').should.eql(expectedDate);
+    });
+
+    it('Converts 2076/10/01 to 2076/10/29', function() {
+        var expectedDate = "2076/10/29";
+        lastday('2076/10/01').should.eql(expectedDate);
+    });
+    it('Converts 2047/04/10 to 2076/10/29', function() {
+        var expectedDate = "2047/4/32";
+        lastday('2047/04/10').should.eql(expectedDate);
     });
 });

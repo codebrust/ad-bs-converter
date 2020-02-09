@@ -12,11 +12,17 @@ npm install ad-bs-converter --save
 ```javascript
 var adbs = require("ad-bs-converter");
 
-console.log(adbs.ad2bs("1990/8/10"))
-console.log(adbs.bs2ad("2047/4/26"))
+/* Dates are Accepted in following String formats
+*       "1990/8/10" or "1990/08/10"
+*  and  "2047-4-26" or "2047-04-26
+*/
+console.log(adbs.ad2bs("1990/8/10"));
+console.log(adbs.bs2ad("2047/4/26"));
+
+
 ```
 
-outputs
+Outputs
 
 ```javascript
 {
@@ -41,4 +47,26 @@ outputs
       strDayOfWeek: 'Friday',
       strShortDayOfWeek: 'Fri' 
 }
+```
+
+#####  To Get Short Date String
+```javascript
+console.log(adbs.tobs("1990/8/10")).toDateString();
+console.log(adbs.toad("2047/4/26")).toDateString();
+```
+Outputs
+```javascript
+2047/4/26
+1990/8/10
+```
+
+#####  To Get the Last and First Day of Month
+```javascript
+console.log(adbs.lastday("2047/4/10")).toDateString();
+console.log(adbs.firstday("2047/4/10")).toDateString();
+```
+Outputs
+```javascript
+2047/4/32
+2047/4/1
 ```
